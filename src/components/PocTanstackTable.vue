@@ -56,29 +56,32 @@ const columnHelper = createColumnHelper<Dev>()
 const columns = [
   columnHelper.accessor('id', {
     header: 'Id',
-    cell: (info) => info.getValue()
   }),
 
   columnHelper.accessor('age', {
     header: 'Idade',
-    cell: (info) => info.getValue()
   }),
 
   columnHelper.accessor('name', {
     header: 'Name',
-    cell: (info) => info.getValue()
   }),
 
   columnHelper.accessor('cpf', {
     header: 'CPF',
     cell: (info) => h(CpfCell, { value: info.getValue() })
+  }),
+
+  columnHelper.display({
+    id: 'actions',
+    header: 'Actions',
+    cell: () => h('div', { class: 'actions' }, ['Edit', 'Delete']),
   })
 ]
 
 const table = useVueTable({
   initialState: {
     columnPinning: {
-      right: ['id']
+      right: ['actions']
     }
   },
 
@@ -98,21 +101,34 @@ const table = useVueTable({
 
       <thead>
         <tr>
+          <!-- Colunas fixas à esquerda -->
+          <th v-for="c in table.getLeftLeafColumns()" :key="c.id" :style="{ width: c.getSize() + 'px' }">
+            <FlexRender :render="c.columnDef.header" />
+          </th>
+          <!-- Colunas centrais (não fixas) -->
           <th v-for="c in table.getCenterLeafColumns()" :key="c.id" :style="{ width: c.getSize() + 'px' }">
-            <FlexRender
-              :render="c.columnDef.header"
-            />
+            <FlexRender :render="c.columnDef.header" />
+          </th>
+          <!-- Colunas fixas à direita (se houver) -->
+          <th v-for="c in table.getRightLeafColumns()" :key="c.id" :style="{ width: c.getSize() + 'px' }" data-pinned="right">
+            <FlexRender :render="c.columnDef.header" />
           </th>
         </tr>
       </thead>
 
       <tbody>
         <tr v-for="row in table.getRowModel().rows" :key="row.id">
-          <td v-for="cell in row.getVisibleCells()" :key="cell.id">
-            <FlexRender
-              :render="cell.column.columnDef.cell"
-              :props="cell.getContext()"
-            />
+         <!-- Células fixas à esquerda -->
+          <td v-for="cell in row.getLeftVisibleCells()" :key="cell.id">
+            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+          </td>
+          <!-- Células centrais -->
+          <td v-for="cell in row.getCenterVisibleCells()" :key="cell.id">
+            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+          </td>
+          <!-- Células fixas à direita -->
+          <td v-for="cell in row.getRightVisibleCells()" :key="cell.id" data-pinned="right" >
+            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
           </td>
         </tr>
       </tbody>
@@ -124,12 +140,21 @@ const table = useVueTable({
 
 .componente-table {
   background-color: #a0a0a0;
-  width: 90px;
+  width: 200px;
   overflow: scroll;
 }
 
 .componente-table table {
+  border-collapse: collapse;
+}
 
+th[data-pinned="right"],
+td[data-pinned="right"] {
+  position: sticky;
+  right: 0;
+  background: tomato;
+  z-index: 2;
+  padding: 0;
 }
 
 </style>
