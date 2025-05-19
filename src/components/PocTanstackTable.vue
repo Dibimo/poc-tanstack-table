@@ -79,10 +79,24 @@ const actions: DataTableAction<Dev>[] = [
   }
 ]
 
+const addData = () => {
+  data.value = [
+    ...data.value,
+    {
+      id: 6,
+      name: 'Vitinho',
+      age: 24,
+      cpf: '12345678900'
+    }
+  ]
+}
+
+
 </script>
 
 <template>
   <h1>POC Tanstack Table</h1>
+  <button @click="addData">adicionar</button>
   <div class="componente-table">
     <DataTable
       :columns="myColumns"
