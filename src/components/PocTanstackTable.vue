@@ -1,12 +1,8 @@
 <script lang="ts" setup>
-import {
-    FlexRender,
-    getCoreRowModel,
-    useVueTable,
-    createColumnHelper
-} from '@tanstack/vue-table'
-import { h, ref } from 'vue'
+import { ref } from 'vue'
 import CpfCell from './CpfCell.vue'
+import DataTable from './DataTable/DataTable.vue'
+import type { DataTableAction, ColumnDefinition } from './DataTable/DataTableProps'
 
 
 type Dev = {
@@ -20,119 +16,79 @@ const devs: Dev[] = [
   {
     id: 1,
     name: 'Digo',
-    age: 30,
+    age: 24,
     cpf: '12345678900'
   },
   {
     id: 2,
     name: 'Carolzinha',
-    age: 25,
+    age: 30,
     cpf: '12345678900'
   },
   {
     id: 3,
     name: 'Ryan',
-    age: 35,
+    age: 40,
     cpf: '12345678900'
   },
   {
     id: 4,
     name: 'Pitas',
-    age: 28,
+    age: 15,
     cpf: '12345678900'
   },
   {
     id: 5,
     name: 'Vitinho',
-    age: 32,
+    age: 24,
     cpf: '12345678900'
   }
 ]
 
 const data = ref(devs)
 
-const columnHelper = createColumnHelper<Dev>()
 
-const columns = [
-  columnHelper.accessor('id', {
+const myColumns: ColumnDefinition<Dev>[] = [
+  {
     header: 'Id',
-  }),
-
-  columnHelper.accessor('age', {
-    header: 'Idade',
-  }),
-
-  columnHelper.accessor('name', {
-    header: 'Name',
-  }),
-
-  columnHelper.accessor('cpf', {
+    accessorKey: 'id'
+  },
+  {
+    header: 'Nome',
+    accessorKey: 'name'
+  },
+  {
+    header: 'Age',
+    accessorKey: 'age'
+  },
+  {
     header: 'CPF',
-    cell: (info) => h(CpfCell, { value: info.getValue() })
-  }),
-
-  columnHelper.display({
-    id: 'actions',
-    header: 'Actions',
-    cell: () => h('div', { class: 'actions' }, ['Edit', 'Delete']),
-  })
+    accessorKey: 'cpf',
+    customElement: CpfCell
+  }
 ]
 
-const table = useVueTable({
-  initialState: {
-    columnPinning: {
-      right: ['actions']
-    }
+const actions: DataTableAction<Dev>[] = [
+  {
+    label: 'Edit',
+    onClick: (row: Dev) => console.log(row)
   },
-
-  get data() {
-    return data.value
-  },
-  columns,
-  getCoreRowModel: getCoreRowModel()
-})
+  {
+    label: 'Delete',
+    onClick: (row: Dev) => console.log(row)
+  }
+]
 
 </script>
 
 <template>
   <h1>POC Tanstack Table</h1>
   <div class="componente-table">
-    <table>
-
-      <thead>
-        <tr>
-          <!-- Colunas fixas à esquerda -->
-          <th v-for="c in table.getLeftLeafColumns()" :key="c.id" :style="{ width: c.getSize() + 'px' }">
-            <FlexRender :render="c.columnDef.header" />
-          </th>
-          <!-- Colunas centrais (não fixas) -->
-          <th v-for="c in table.getCenterLeafColumns()" :key="c.id" :style="{ width: c.getSize() + 'px' }">
-            <FlexRender :render="c.columnDef.header" />
-          </th>
-          <!-- Colunas fixas à direita (se houver) -->
-          <th v-for="c in table.getRightLeafColumns()" :key="c.id" :style="{ width: c.getSize() + 'px' }" data-pinned="right">
-            <FlexRender :render="c.columnDef.header" />
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="row in table.getRowModel().rows" :key="row.id">
-         <!-- Células fixas à esquerda -->
-          <td v-for="cell in row.getLeftVisibleCells()" :key="cell.id">
-            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-          </td>
-          <!-- Células centrais -->
-          <td v-for="cell in row.getCenterVisibleCells()" :key="cell.id">
-            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-          </td>
-          <!-- Células fixas à direita -->
-          <td v-for="cell in row.getRightVisibleCells()" :key="cell.id" data-pinned="right" >
-            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <DataTable
+      :columns="myColumns"
+      :data="data"
+      :actions="actions"
+    />
   </div>
 </template>
 
@@ -140,7 +96,6 @@ const table = useVueTable({
 
 .componente-table {
   background-color: #a0a0a0;
-  width: 200px;
   overflow: scroll;
 }
 
