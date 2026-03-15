@@ -4,7 +4,6 @@ import DataTable from './DataTable/DataTable.vue'
 import type { ColumnDefinition } from './DataTable/DataTableProps'
 import { productsService } from '../api/products.service'
 import type { Product } from '../api/types/product'
-import CategoryCell from './DataTable/cells/CategoryCell.vue'
 import PriceCell from './DataTable/cells/PriceCell.vue'
 import RatingCell from './DataTable/cells/RatingCell.vue'
 
@@ -13,7 +12,7 @@ const isDark = ref(false)
 const columns: ColumnDefinition<Product>[] = [
   { header: 'ID', accessorKey: 'id' },
   { header: 'Título', accessorKey: 'title' },
-  { header: 'Categoria', accessorKey: 'category', customElement: CategoryCell },
+  { header: 'Categoria', accessorKey: 'category' },
   { header: 'Preço', accessorKey: 'price', customElement: PriceCell },
   { header: 'Estoque', accessorKey: 'stock' },
   { header: 'Avaliação', accessorKey: 'rating', customElement: RatingCell },
