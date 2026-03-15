@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import DataTable from './DataTable/DataTable.vue'
 import type { ColumnDefinition } from './DataTable/DataTableProps'
 import { productsService } from '../api/products.service'
 import type { Product } from '../api/types/product'
 
-const data = ref<Product[]>([])
 const isDark = ref(false)
 
 const columns: ColumnDefinition<Product>[] = [
@@ -22,10 +21,12 @@ const toggleTheme = () => {
   document.documentElement.classList.toggle('dark', isDark.value)
 }
 
-onMounted(async () => {
-  const response = await productsService.getAll()
-  data.value = response.products
-})
+const { products, fetchNextPage, hasNextPage } = productsService.useInfiniteProducts()
+
+const onScrollEnd = () => {
+  if (hasNextPage.value) fetchNextPage()
+}
+
 </script>
 
 <template>
@@ -47,8 +48,9 @@ onMounted(async () => {
       </div>
 
       <DataTable
+        @scroll-end="onScrollEnd"
         :columns="columns"
-        :data="data"
+        :data="products"
         class="h-full flex-1 min-h-0"
       />
 
