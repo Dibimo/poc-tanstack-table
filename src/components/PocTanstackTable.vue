@@ -29,8 +29,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
-    <div class="max-w-6xl mx-auto px-6 py-10">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300 h-full">
+    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col h-full">
 
       <div class="flex items-center justify-between mb-8">
         <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">
@@ -46,7 +46,11 @@ onMounted(async () => {
         </button>
       </div>
 
-      <DataTable :columns="columns" :data="data" />
+      <DataTable
+        :columns="columns"
+        :data="data"
+        class="h-full"
+      />
 
     </div>
   </div>
