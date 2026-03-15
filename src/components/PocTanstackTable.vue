@@ -4,15 +4,19 @@ import DataTable from './DataTable/DataTable.vue'
 import type { ColumnDefinition } from './DataTable/DataTableProps'
 import { productsService } from '../api/products.service'
 import type { Product } from '../api/types/product'
+import TagsCell from './DataTable/cells/TagsCell.vue'
 import PriceCell from './DataTable/cells/PriceCell.vue'
 import RatingCell from './DataTable/cells/RatingCell.vue'
+import ThumbnailCell from './DataTable/cells/ThumbnailCell.vue'
 
 const isDark = ref(false)
 
 const columns: ColumnDefinition<Product>[] = [
+  { header: 'Thumb', accessorKey: 'thumbnail', customElement: ThumbnailCell },
   { header: 'ID', accessorKey: 'id' },
   { header: 'Título', accessorKey: 'title' },
   { header: 'Categoria', accessorKey: 'category' },
+  { header: 'Tags', accessorKey: 'tags', customElement: TagsCell },
   { header: 'Preço', accessorKey: 'price', customElement: PriceCell },
   { header: 'Estoque', accessorKey: 'stock' },
   { header: 'Avaliação', accessorKey: 'rating', customElement: RatingCell },
