@@ -14,6 +14,11 @@ A POC demonstra uma `DataTable` genérica, reutilizável e extensível — com c
 
 </div>
 
+## Screenshots
+
+| Tema escuro | Tema claro |
+|-------------|------------|
+| ![Tema escuro](docs/dark.png) | ![Tema claro](docs/light.png) |
 ---
 
 ## Funcionalidades
