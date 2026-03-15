@@ -51,12 +51,18 @@ const tableApi = useVueTable({
   }
 })
 
+const emits = defineEmits(['scroll-end'])
+
+const emitsScrollEnd = () => {
+  emits('scroll-end')
+}
+
 
 </script>
 
 <template>
   <div class="rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
-    <div class="overflow-auto h-full">
+    <div class="overflow-auto h-full" v-scroll-end="emitsScrollEnd">
       <table class="w-full text-sm border-collapse">
         <DataTableHeader :table="tableApi" />
         <DataTableBody :table="tableApi" />
