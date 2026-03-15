@@ -55,25 +55,12 @@ const tableApi = useVueTable({
 </script>
 
 <template>
-  <table>
-    <DataTableHeader :table="tableApi" />
-    <DataTableBody :table="tableApi" />
-  </table>
+  <div class="rounded-xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <DataTableHeader :table="tableApi" />
+        <DataTableBody :table="tableApi" />
+      </table>
+    </div>
+  </div>
 </template>
-
-<style>
-
-table {
-  border-collapse: collapse;
-}
-
-th[data-pinned="right"],
-td[data-pinned="right"] {
-  position: sticky;
-  right: 0;
-  background: tomato;
-  z-index: 2;
-  padding: 0;
-}
-
-</style>

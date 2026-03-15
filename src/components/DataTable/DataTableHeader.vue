@@ -8,13 +8,14 @@ defineProps<{ table: Table<T> }>()
 
 
 <template>
-  <thead>
+  <thead class="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 uppercase text-xs tracking-wider">
     <tr>
       <th
         v-for="c in table.getLeftLeafColumns()"
         :key="c.id"
         :style="{ width: c.getSize() + 'px' }"
         data-pinned="left"
+        class="px-4 py-3 text-left font-semibold"
       >
         <FlexRender :render="c.columnDef.header" />
       </th>
@@ -23,6 +24,7 @@ defineProps<{ table: Table<T> }>()
         v-for="c in table.getCenterLeafColumns()"
         :key="c.id"
         :style="{ width: c.getSize() + 'px' }"
+        class="px-4 py-3 text-left font-semibold"
       >
         <FlexRender :render="c.columnDef.header" />
       </th>
@@ -32,12 +34,10 @@ defineProps<{ table: Table<T> }>()
         :key="c.id"
         :style="{ width: c.getSize() + 'px' }"
         data-pinned="right"
+        class="px-4 py-3 text-left font-semibold"
       >
         <FlexRender :render="c.columnDef.header" />
       </th>
     </tr>
   </thead>
 </template>
-
-<style scoped>
-</style>
