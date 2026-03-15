@@ -55,8 +55,8 @@ const tableApi = useVueTable({
 </script>
 
 <template>
-  <div class="rounded-xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-700">
-    <div class="overflow-x-auto">
+  <div class="rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
+    <div class="overflow-auto h-full">
       <table class="w-full text-sm border-collapse">
         <DataTableHeader :table="tableApi" />
         <DataTableBody :table="tableApi" />

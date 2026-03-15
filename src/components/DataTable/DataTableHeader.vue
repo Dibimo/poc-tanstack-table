@@ -8,7 +8,7 @@ defineProps<{ table: Table<T> }>()
 
 
 <template>
-  <thead class="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 uppercase text-xs tracking-wider">
+  <thead class="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 uppercase text-xs tracking-wider sticky top-0 z-10">
     <tr>
       <th
         v-for="c in table.getLeftLeafColumns()"
